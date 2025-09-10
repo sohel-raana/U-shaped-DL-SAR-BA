@@ -14,9 +14,6 @@ sys.path.append('/share/wildfire-3/Sohel/Model/Code/UNet')
 
 # Import custom modules
 from DataLoad import UNetDataset_1, UNetDataset_Chnl
-from AttentionUNet import U_Net, AttU_Net
-from NestedUnet import NestedUNet
-from AttentionResUNet_1 import AttentionResUNet
 from ExtendedNestedUNet import NestedUNetHeTrans, NestedUnet_DeepSup
 from UNet3Plus import UNet_3Plus_DeepSup
 # Define model architectures
