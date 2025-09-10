@@ -7,3 +7,5 @@ This repository provides code and resources for burned area mapping using synthe
 Wildfires are a major disturbance to ecosystems, and timely detection of burned areas is essential for disaster response and environmental monitoring. Optical data (e.g., Sentinel-2) are widely used, but cloud cover and smoke often delay availability. SAR data provide an all-weather, day-and-night alternative.
 
 In this repository, we implement and evaluate U-shaped deep learning models (e.g., U-Net, Attention U-Net, Nested U-Net) for burned area mapping from SAR imagery. The pipeline includes preprocessing, patch generation, training, evaluation, and visualization.
+
+Datasets can be downloaded from this [Link](https://example.com)
