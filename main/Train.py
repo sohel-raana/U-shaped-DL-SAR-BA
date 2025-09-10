@@ -28,44 +28,14 @@ from AttentionUNet import AttU_Net, U_Net
 from u_net import build_unet
 from attention_unet import attention_unet
 from res_attn_unet import AttentionResUNet
-
-from archs import UKAN
-from swin_transformer_unet_skip_expand_decoder_sys import SwinTransformerSys
-# from archs_unext import UNext, UNext_S
-
-# from DS_TransUNet import UNet
-# from segformer_pytorch import Segformer
-# from unetr_2d import UNETR_2D
-
-from NestedUnet import NestedUNet
-# from AttentionResUNet_1 import AttentionResUNet
 from ExtendedNestedUNet_1 import NestedUNetHeTrans, NestedUnet_DeepSup
-
 from UNet3Plus import UNet_3Plus_DeepSup
-from Luft import UNetWithResnet50Encoder
 
 # Set up device and environment
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 torch.cuda.set_device(device)
 torch.cuda.empty_cache()
-
-config = {}
-config["image_size"] = 256
-config["num_layers"] = 12
-config["hidden_dim"] = 768
-config["mlp_dim"] = 3072
-config["num_heads"] = 12
-config["dropout_rate"] = 0.1
-config["num_patches"] = 256   # 16 x 16 = 256 patches
-config["patch_size"] = 16
-
-# def get_model_architectures():
-#     return [('dsswinunet',lambda c: UNet(dim=128, n_class=1, in_ch=c)),
-#             ('segformer',lambda c: Segformer()),
-#             ('UNETR_2D',lambda c:UNETR_2D(config))
-#             ]
-
 
 # Set random seeds for reproducibility
 def set_random_seeds(seed=42):
@@ -81,43 +51,15 @@ def set_random_seeds(seed=42):
 # Define model architectures
 def get_model_architectures():
     return [
-        # ('Unet_Res50', lambda c: smp.create_model(
-        #     "unet", encoder_name='resnet50', encoder_weights=None, in_channels=c, classes=1, activation= "sigmoid")
-        # ),
-        # ('DeepLabV3+', lambda c: smp.create_model(
-        #     "deeplabv3plus", encoder_name='resnet50', encoder_weights=None, in_channels=c, classes=1, activation= "sigmoid")
-        # ),
-        # ('UKan', lambda c: UKAN(num_classes=1,input_channels=c,img_size=256)),
-        ('SwinUNet', lambda c: SwinTransformerSys(
-                    img_size=(256,256),
-                    patch_size=4,
-                    in_chans=c,
-                    num_classes=1,
-                    embed_dim=96,
-                    depths=[2, 2, 2, 2],
-                    num_heads=[3, 6, 12, 24],
-                    window_size=8,      # 윈도우 크기: 7, 420÷7=60, 980÷7=140 → 문제 없음
-                    mlp_ratio=4.,
-                    qkv_bias=True,
-                    qk_scale=None,
-                    drop_rate=0.,
-                    attn_drop_rate=0.,
-                    drop_path_rate=0.1,
-                    norm_layer=nn.LayerNorm,
-                    ape=True,
-                    patch_norm=True,
-                    use_checkpoint=False,
-                    final_upsample="expand_first"
-                ))
-        # ('UNext', lambda c: UNext(num_classes=1,input_channels=c,img_size=256)),
-        # ('UNext_S', lambda c: UNext_S(num_classes=1,input_channels=c,img_size=256))
-
-        # ('U_Net', lambda c: build_unet(in_channels=c)),
-        # ('AttU_Net', lambda c: attention_unet(in_channels=c)),
-        # ('AttentionResUNet', lambda c: AttentionResUNet(c, 1)),
-        # ('NestedUNet_He', lambda c: NestedUNetHeTrans(c, 1)),
-        # ('NestedUnet_DeepSup', lambda c: NestedUnet_DeepSup(c, 1)),
-        # ('UNet_3Plus_DeepSup', lambda c: UNet_3Plus_DeepSup(c, 1)),
+        ('Unet_Res50', lambda c: smp.create_model(
+            "unet", encoder_name='resnet50', encoder_weights=None, in_channels=c, classes=1, activation= "sigmoid")
+        ),
+        ('U_Net', lambda c: build_unet(in_channels=c)),
+        ('AttU_Net', lambda c: attention_unet(in_channels=c)),
+        ('AttentionResUNet', lambda c: AttentionResUNet(c, 1)),
+        ('NestedUNet_He', lambda c: NestedUNetHeTrans(c, 1)),
+        ('NestedUnet_DeepSup', lambda c: NestedUnet_DeepSup(c, 1)),
+        ('UNet_3Plus_DeepSup', lambda c: UNet_3Plus_DeepSup(c, 1)),
     ]
 
 lr = 0.001
