@@ -8,4 +8,4 @@ Wildfires are a major disturbance to ecosystems, and timely detection of burned 
 
 In this repository, we implement and evaluate U-shaped deep learning models (e.g., U-Net, Attention U-Net, Nested U-Net) for burned area mapping from SAR imagery. The pipeline includes preprocessing, patch generation, training, evaluation, and visualization.
 
-Datasets can be downloaded from this [Link](https://example.com)
+Datasets can be downloaded from this [Link](https://example.com) and weights can be downloaded from [this] ()
