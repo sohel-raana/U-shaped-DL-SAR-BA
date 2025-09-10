@@ -23,25 +23,15 @@ os.makedirs(directory, exist_ok=True)
 os.chdir(directory)
 
 # Import custom modules
-from Metrics import calculate_accuracy,DiceLoss, DICE_BCE_Loss
+from Metrics import calculate_accuracy, DiceLoss, DICE_BCE_Loss
 from DataLoad import UNetDataset, UNetDataset_1
 from DataLoad_2 import UNetDataset_2
-
-from AttentionUNet import AttU_Net, U_Net
 
 from u_net import build_unet
 from attention_unet import attention_unet
 from res_attn_unet import AttentionResUNet
-from archs import UKAN
-
-from NestedUnet import NestedUNet
-# from AttentionResUNet_1 import AttentionResUNet
 from ExtendedNestedUNet_1 import NestedUNetHeTrans, NestedUnet_DeepSup
-from Nested_VGG import NestedUNet
-# from Unet import UNet
-from UNetWithResnet50Encoder import ResNet50UNet
-from UNet3Plus import UNet_3Plus_DeepSup, UNet_3Plus_DeepSup_CGM
-from swin_transformer_unet_skip_expand_decoder_sys import SwinTransformerSys
+from UNet3Plus import UNet_3Plus_DeepSup
 
 # Set up device and environment
 # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -62,37 +52,16 @@ torch.cuda.manual_seed_all(seed)
 
 # Define model architectures
 model_architectures = [
-    # ('Unet_Res50', lambda c: smp.create_model(
-    # "unet", encoder_name='resnet50', encoder_weights=None, in_channels=c, classes=1, activation= "sigmoid")
-    # ),
-    # ('U_Net', lambda c: build_unet(in_channels=c)),
-    # ('AttU_Net', lambda c: attention_unet(in_channels=c)),
-    # ('AttentionResUNet', lambda c: AttentionResUNet(c, 1)),
-    # ('NestedUNet_He', lambda c: NestedUNetHeTrans(c, 1)),
-    # ('NestedUnet_DeepSup', lambda c: NestedUnet_DeepSup(c, 1)),
-    # ('UNet_3Plus_DeepSup', lambda c: UNet_3Plus_DeepSup(c, 1)),
-    # ('UKan', lambda c: UKAN(num_classes=1,input_channels=c,img_size=256)),
-    ('SwinUNet', lambda c: SwinTransformerSys(
-            img_size=(256,256),
-            patch_size=4,
-            in_chans=c,
-            num_classes=1,
-            embed_dim=96,
-            depths=[2, 2, 2, 2],
-            num_heads=[3, 6, 12, 24],
-            window_size=8,      # 윈도우 크기: 7, 420÷7=60, 980÷7=140 → 문제 없음
-            mlp_ratio=4.,
-            qkv_bias=True,
-            qk_scale=None,
-            drop_rate=0.,
-            attn_drop_rate=0.,
-            drop_path_rate=0.1,
-            norm_layer=nn.LayerNorm,
-            ape=True,
-            patch_norm=True,
-            use_checkpoint=False,
-            final_upsample="expand_first"
-        ))
+    ('Unet_Res50', lambda c: smp.create_model(
+    "unet", encoder_name='resnet50', encoder_weights=None, in_channels=c, classes=1, activation= "sigmoid")
+    ),
+    ('U_Net', lambda c: build_unet(in_channels=c)),
+    ('AttU_Net', lambda c: attention_unet(in_channels=c)),
+    ('AttentionResUNet', lambda c: AttentionResUNet(c, 1)),
+    ('NestedUNet_He', lambda c: NestedUNetHeTrans(c, 1)),
+    ('NestedUnet_DeepSup', lambda c: NestedUnet_DeepSup(c, 1)),
+    ('UNet_3Plus_DeepSup', lambda c: UNet_3Plus_DeepSup(c, 1)),
+)
 ]
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, jaccard_score
@@ -183,7 +152,7 @@ all_metrics_data = []
 
 channels_map = {
     'Log': 3,
-    'Ind': 1,
+    'Ind': 2,
     'Combo': 5,
     'RF_Log': 4,
     'Log_2': 2,
