@@ -40,7 +40,10 @@ class FirePredictionPipeline:
         """
         self.base_path = base_path
         self.preprocessor = Sentinel1Preprocessor(base_path)
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        if torch.cuda.is_available():
+            self.device = torch.device(f"cuda:{gpu}")
+        else:
+            self.device = torch.device("cpu")
         
         # Model architectures
         self.model_architectures = [
@@ -454,7 +457,8 @@ def main():
     parser.add_argument('--base_path', default='/share/wildfire-3/Sohel', help='Base path for data')
     parser.add_argument('--skip_preprocessing', action='store_true', 
                        help='Skip preprocessing step (use existing processed data)')
-    
+    parser.add_argument('--gpu', type=int, default=0,
+                   help='GPU id to use (e.g., 0 or 1). Ignored if no CUDA available')
     args = parser.parse_args()
     
     # Create and run pipeline
