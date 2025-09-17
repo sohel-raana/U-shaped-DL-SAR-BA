@@ -462,7 +462,7 @@ def main():
     args = parser.parse_args()
     
     # Create and run pipeline
-    pipeline = FirePredictionPipeline(args.base_path)
+    pipeline = FirePredictionPipeline(args.base_path, gpu=args.gpu)
     results = pipeline.run_full_pipeline(
         fire_case=args.case,
         data_type=args.data_type,
