@@ -31,7 +31,7 @@ from UNet3Plus import UNet_3Plus_DeepSup
 
 
 class FirePredictionPipeline:
-    def __init__(self, base_path='/share/wildfire-3/Sohel'):
+    def __init__(self, base_path='/share/wildfire-3/Sohel', gpu=0):
         """
         Initialize the fire prediction pipeline
         
